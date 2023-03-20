@@ -19,7 +19,6 @@ receivers:
         enabled: true
       container.network.io.usage.tx_dropped:
         enabled: true
-
 exporters:
   logging:
   prometheusremotewrite:
@@ -30,5 +29,5 @@ exporters:
 service:
   pipelines:
     metrics:
-      receivers: [hostmetrics, docker_stats]
+      receivers: [hostmetrics]
       exporters: [prometheusremotewrite, logging]
