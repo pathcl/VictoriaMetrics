@@ -1,0 +1,34 @@
+receivers:
+  hostmetrics:
+    collection_interval: 30s
+    scrapers:
+      cpu:
+      load:
+      memory:
+      disk:
+      filesystem:
+      network:
+      paging:
+      processes:
+
+  docker_stats:
+    collection_interval: 2s
+    timeout: 20s
+    metrics:
+      container.cpu.usage.percpu:
+        enabled: true
+      container.network.io.usage.tx_dropped:
+        enabled: true
+
+exporters:
+  logging:
+  prometheusremotewrite:
+    endpoint: "http://labs.sanmartin.io:8428/api/v1/write"
+    external_labels:
+      dc: homelab
+
+service:
+  pipelines:
+    metrics:
+      receivers: [hostmetrics, docker_stats]
+      exporters: [prometheusremotewrite, logging]
